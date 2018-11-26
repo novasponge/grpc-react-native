@@ -8,29 +8,37 @@ import {
   TextInput,
   View
 } from 'react-native';
- import { Greeter } from './helloworld'
- export default class App extends Component {
-  state: { name: string } = { name: '' };
+ import { Inbox } from './inbox'
+
+ type state = {
+   content: string
+ }
+ export default class App extends Component<any, state> {
+  state: { content: string } = { content: '' };
    render() {
     return (
       <View style={styles.container}>
         <View style={styles.textInputWrap}>
           <TextInput
             style={styles.textInput}
-            onChangeText={(name) => this.setState({name})}
-            value={this.state.name}
+            onChangeText={(content) => this.setState({content})}
+            value={this.state.content}
           />
         </View>
-        <Button title="call Greeter.sayHello" onPress={() => this.onButtonPress()}/>
+        <Button title="call Inbox to create notification" onPress={() => this.onButtonPress()}/>
       </View>
     );
   }
    async onButtonPress() {
     try {
-      const response = await Greeter.sayHello({ name: this.state.name })
-      Alert.alert('response', response.message);
+      const response = await Inbox.createNotification({ 
+        content: this.state.content,
+        id: undefined,
+        ownerID: 1
+      })
+      Alert.alert('response', response.content);
     } catch (e) {
-      Alert.alert('error', e.message);
+      Alert.alert('error', e.content);
     }
   }
 }
