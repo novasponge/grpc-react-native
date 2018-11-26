@@ -8,14 +8,17 @@ import {
   TextInput,
   View
 } from 'react-native';
- import { Inbox } from './inbox'
 
- type state = {
-   content: string
- }
- export default class App extends Component<any, state> {
+import { Inbox } from './inbox'
+
+type state = {
+  content: string
+}
+ 
+export default class Index extends Component<{}, state> {
   state: { content: string } = { content: '' };
-   render() {
+   
+  render() {
     return (
       <View style={styles.container}>
         <View style={styles.textInputWrap}>
@@ -25,11 +28,12 @@ import {
             value={this.state.content}
           />
         </View>
-        <Button title="call Inbox to create notification" onPress={() => this.onButtonPress()}/>
+        <Button title="call Inbox to create notification" onPress={() => this.onButtonPress}/>
       </View>
     );
   }
-   async onButtonPress() {
+   
+  async onButtonPress() {
     try {
       const response = await Inbox.createNotification({ 
         content: this.state.content,
@@ -42,7 +46,8 @@ import {
     }
   }
 }
- const styles = StyleSheet.create({
+ 
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',

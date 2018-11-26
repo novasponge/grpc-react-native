@@ -1,4 +1,4 @@
-package com.grpcexample;
+package com.simplechatgrpcclient;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -15,7 +15,6 @@ public class GRPCPackage implements ReactPackage {
   public static final int PORT = 10000;
   public static final boolean USE_PLAINTEXT = true;
 
-  @Override
   public List<Class<? extends JavaScriptModule>> createJSModules() {
     return Collections.emptyList();
   }

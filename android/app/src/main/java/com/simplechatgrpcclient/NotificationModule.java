@@ -1,4 +1,4 @@
-package com.grpcexample;
+package com.simplechatgrpcclient;
  
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -8,13 +8,10 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
  
-import io.grpc.example.inbox.InboxGrpc;
-import io.grpc.example.inbox.GetMessages;
-import io.grpc.example.inbox.GetMessage;
-import io.grpc.example.inbox.CreateMessage;
-import io.grpc.example.inbox.UpdateMessage;
-import io.grpc.example.inbox.DeleteMessage;
- 
+import io.grpc.example.inbox.inboxGrpc;
+import io.grpc.example.inbox.Notification;
+import io.grpc.example.inbox.NotificationParams;
+
 public class NotificationModule extends ReactContextBaseJavaModule {
   public NotificationModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -34,10 +31,10 @@ public class NotificationModule extends ReactContextBaseJavaModule {
           .setContent(requestMap.getString("content"))
           .build();
 
-        InboxGrpc.InboxBlockingStub stub = InboxGrpc.newBlockingStub(getChannel());
-        Notification reply = stub.CreateMessage(request);
+        inboxGrpc.inboxBlockingStub stub = inboxGrpc.newBlockingStub(getChannel());
+        Notification reply = stub.createMessage(request);
         WritableMap response = new WritableNativeMap();
-        response.putString("notification", reply.getNotification());
+        response.putString("notification", reply.getContent());
         return response;
       }
     }.execute();
