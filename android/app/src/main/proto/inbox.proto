@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package inbox;
+
+service inbox {
+
+  // retrive all Messages
+  rpc GetMessages (Owner) returns (stream Notification) {}
+
+  // retrive one message by given message id
+  rpc GetMessage (NotificationParams) returns (Notification) {}
+
+  // create a message and return the created
+  rpc CreateMessage (Notification) returns (Notification) {}
+
+  // update a message and return the updated
+  rpc UpdateMessage (Notification) returns (Notification) {}
+
+  // delete a message and return the deleted
+  rpc DeleteMessage (NotificationParams) returns (Notification) {}
+};
+
+// Tag numbers 1-15 require one less byte to encode than higher numbers, 
+// so as an optimization you can decide to use those tags for the commonly used or repeated elements, 
+// leaving tags 16 and higher for less-commonly used optional elements.
+
+message NotificationParams {
+  int32 id = 2;
+}
+
+message Notification {
+  string content = 1;
+  int32 id = 2; 
+  int32 ownerId = 3;
+};
+
+message Owner {
+  int32 id = 1;
+}
