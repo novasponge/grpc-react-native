@@ -34,7 +34,7 @@ public class NotificationModule extends ReactContextBaseJavaModule {
         inboxGrpc.inboxBlockingStub stub = inboxGrpc.newBlockingStub(getChannel());
         Notification reply = stub.createMessage(request);
         WritableMap response = new WritableNativeMap();
-        response.putString("notification", reply.getContent());
+        response.putString("content", reply.getContent());
         return response;
       }
     }.execute();

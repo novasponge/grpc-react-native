@@ -8,27 +8,26 @@ import {
   TextInput,
   View
 } from 'react-native';
-
 import { Inbox } from './inbox'
 
 type state = {
   content: string
 }
- 
-export default class Index extends Component<{}, state> {
+export default class App extends Component<any, state> {
   state: { content: string } = { content: '' };
    
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.textInputWrap}>
+          <Text>New notification</Text>
           <TextInput
             style={styles.textInput}
             onChangeText={(content) => this.setState({content})}
             value={this.state.content}
           />
         </View>
-        <Button title="call Inbox to create notification" onPress={() => this.onButtonPress}/>
+        <Button title="call Inbox to create notification" onPress={() => this.onButtonPress()}/>
       </View>
     );
   }
@@ -37,17 +36,16 @@ export default class Index extends Component<{}, state> {
     try {
       const response = await Inbox.createNotification({ 
         content: this.state.content,
-        id: undefined,
         ownerID: 1
       })
       Alert.alert('response', response.content);
     } catch (e) {
+      console.log('error', e.content);
       Alert.alert('error', e.content);
     }
   }
 }
- 
-const styles = StyleSheet.create({
+ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',

@@ -2,8 +2,8 @@
 import { NativeModules } from "react-native";
 
 export type Notification = { 
-  content : string,
   id? : number,
+  content : string,
   ownerID : number,
 };
 

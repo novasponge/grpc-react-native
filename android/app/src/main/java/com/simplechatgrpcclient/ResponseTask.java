@@ -19,35 +19,40 @@ import static com.simplechatgrpcclient.GRPCPackage.USE_PLAINTEXT;
 public abstract class ResponseTask extends AsyncTask<Void, Void, ResponseOrException> {
   private final Promise responsePromise;
   private ManagedChannel channel;
-   protected ResponseTask(Promise responsePromise) {
+  protected ResponseTask(Promise responsePromise) {
     this.responsePromise = responsePromise;
   }
-   protected ManagedChannel getChannel() {
+  protected ManagedChannel getChannel() {
     return channel;
   }
-   @Override
+
+  @Override
   protected ResponseOrException doInBackground(Void... nothing) {
     try {
       channel = ManagedChannelBuilder.forAddress(HOST, PORT)
           .usePlaintext(USE_PLAINTEXT)
           .build();
-       return new ResponseOrException(getResponse());
+
+      return new ResponseOrException(getResponse());
      } catch (Exception e) {
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);
       e.printStackTrace(pw);
       pw.flush();
-       return new ResponseOrException(e);
+
+      return new ResponseOrException(e);
     }
   }
-   @Override
+
+  @Override
   protected void onPostExecute(ResponseOrException response) {
     try {
       channel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
-     if (response.hasResponse()) {
+
+    if (response.hasResponse()) {
       responsePromise.resolve(response.getResponse());
     } else {
       responsePromise.reject(response.getException());
