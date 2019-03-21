@@ -3,7 +3,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "io.grpc.example.inbox";
 option java_outer_classname = "InboxProto";
-option objc_class_prefix = "HLW";
+option objc_class_prefix = "RTG";
 
 package inbox;
 
@@ -23,6 +23,10 @@ service inbox {
 
   // delete a message and return the deleted
   rpc DeleteMessage (NotificationParams) returns (Notification) {}
+
+  // Accepts a stream of messages sent while a message is being responded
+  // while receiving other messages (e.g. from other users)
+  rpc Chat(stream Message) returns (stream Message) {}
 };
 
 // Tag numbers 1-15 require one less byte to encode than higher numbers, 
@@ -41,4 +45,8 @@ message Notification {
 
 message Owner {
   int32 id = 1;
+}
+
+message Message {
+  string content = 1;
 }
